@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using YungChing.Models;
 using YungChing.Repositories;
+using PagedList;
 
 namespace YungChing.Controllers
 {
@@ -15,6 +16,8 @@ namespace YungChing.Controllers
 	{
 		//private NorthwindEntities db = new NorthwindEntities();
 		private IRepository<Customers> repo;
+
+		private int pageSize = 5;
 
 		public CustomersController()
 			: this(new EFGenericRepository<Customers>(new NorthwindEntities()))
@@ -27,10 +30,16 @@ namespace YungChing.Controllers
 		}
 
 		// GET: Customers
-		public ActionResult Index()
+		public ActionResult Index(int page = 1)
 		{
+			int currentPage = page < 1 ? 1 : page;		
+
+			var customers = repo.Reads().OrderBy(x => x.CustomerID);
+
+			var result = customers.ToPagedList(currentPage, pageSize);
+
 			//return View(db.Customers.ToList());
-			return View(repo.Reads().ToList());
+			return View(result);
 		}
 
 		// GET: Customers/Details/5
@@ -112,7 +121,7 @@ namespace YungChing.Controllers
 			{
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
-			Customers customers = repo.Read(x=>x.CustomerID==id);
+			Customers customers = repo.Read(x => x.CustomerID == id);
 			if (customers == null)
 			{
 				return HttpNotFound();
@@ -128,9 +137,9 @@ namespace YungChing.Controllers
 			Customers customers = repo.Read(x => x.CustomerID == id);
 			repo.Delete(customers);
 			repo.SaveChanges();
-			
+
 			return RedirectToAction("Index");
 		}
-		
+
 	}
 }
