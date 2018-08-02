@@ -11,16 +11,18 @@ namespace YungChing.Models
 {
     using System;
     using System.Collections.Generic;
-    
-    public partial class Region
+	using System.ComponentModel.DataAnnotations;
+
+	public partial class Region
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Region()
         {
             this.Territories = new HashSet<Territories>();
         }
-    
-        public int RegionID { get; set; }
+
+		[Key]
+		public int RegionID { get; set; }
         public string RegionDescription { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

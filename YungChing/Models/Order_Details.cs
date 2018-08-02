@@ -11,10 +11,12 @@ namespace YungChing.Models
 {
     using System;
     using System.Collections.Generic;
-    
-    public partial class Order_Details
+	using System.ComponentModel.DataAnnotations;
+
+	public partial class Order_Details
     {
-        public int OrderID { get; set; }
+		[Key]
+		public int OrderID { get; set; }
         public int ProductID { get; set; }
         public decimal UnitPrice { get; set; }
         public short Quantity { get; set; }

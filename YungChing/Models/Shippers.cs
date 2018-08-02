@@ -11,16 +11,18 @@ namespace YungChing.Models
 {
     using System;
     using System.Collections.Generic;
-    
-    public partial class Shippers
+	using System.ComponentModel.DataAnnotations;
+
+	public partial class Shippers
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Shippers()
         {
             this.Orders = new HashSet<Orders>();
         }
-    
-        public int ShipperID { get; set; }
+
+		[Key]
+		public int ShipperID { get; set; }
         public string CompanyName { get; set; }
         public string Phone { get; set; }
     

@@ -11,16 +11,18 @@ namespace YungChing.Models
 {
     using System;
     using System.Collections.Generic;
-    
-    public partial class Territories
+	using System.ComponentModel.DataAnnotations;
+
+	public partial class Territories
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Territories()
         {
             this.Employees = new HashSet<Employees>();
         }
-    
-        public string TerritoryID { get; set; }
+
+		[Key]
+		public string TerritoryID { get; set; }
         public string TerritoryDescription { get; set; }
         public int RegionID { get; set; }
     

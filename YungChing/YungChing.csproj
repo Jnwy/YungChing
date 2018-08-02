@@ -209,6 +209,8 @@
       <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DAL\EFGenericRepository.cs" />
+    <Compile Include="DAL\IRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\Northwind.mdf" />

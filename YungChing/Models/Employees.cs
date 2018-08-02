@@ -11,8 +11,9 @@ namespace YungChing.Models
 {
     using System;
     using System.Collections.Generic;
-    
-    public partial class Employees
+	using System.ComponentModel.DataAnnotations;
+
+	public partial class Employees
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Employees()
@@ -21,8 +22,9 @@ namespace YungChing.Models
             this.Orders = new HashSet<Orders>();
             this.Territories = new HashSet<Territories>();
         }
-    
-        public int EmployeeID { get; set; }
+
+		[Key]
+		public int EmployeeID { get; set; }
         public string LastName { get; set; }
         public string FirstName { get; set; }
         public string Title { get; set; }

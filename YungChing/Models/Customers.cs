@@ -11,8 +11,9 @@ namespace YungChing.Models
 {
     using System;
     using System.Collections.Generic;
-    
-    public partial class Customers
+	using System.ComponentModel.DataAnnotations;
+
+	public partial class Customers
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Customers()
@@ -20,8 +21,9 @@ namespace YungChing.Models
             this.Orders = new HashSet<Orders>();
             this.CustomerDemographics = new HashSet<CustomerDemographics>();
         }
-    
-        public string CustomerID { get; set; }
+
+		[Key]
+		public string CustomerID { get; set; }
         public string CompanyName { get; set; }
         public string ContactName { get; set; }
         public string ContactTitle { get; set; }
