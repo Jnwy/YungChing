@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using YungChing.Models;
 using YungChing.Repositories;
 using PagedList;
+using YungChing.ViewModels;
 
 namespace YungChing.Controllers
 {
@@ -29,17 +30,23 @@ namespace YungChing.Controllers
 			repo = inRepo;
 		}
 
-		// GET: Customers
-		public ActionResult Index(int page = 1)
+		// POST: Customers
+
+		public ActionResult Index(CustomersListViewModel model)
 		{
-			int currentPage = page < 1 ? 1 : page;		
+			int currentPage = model.PageIndex < 1 ? 1 : model.PageIndex;
 
-			var customers = repo.Reads().OrderBy(x => x.CustomerID);
+			var customers = repo.Reads().OrderBy(x => x.CustomerID).AsQueryable();
 
-			var result = customers.ToPagedList(currentPage, pageSize);
+			if (model.SearchParameter != null && !string.IsNullOrWhiteSpace(model.SearchParameter.CustomerName))
+			{
+				customers = customers.Where(x => x.ContactName.ToLower().Contains(model.SearchParameter.CustomerName.ToLower()));
+			}
+
+			model.Customers = customers.ToPagedList(currentPage, pageSize);
 
 			//return View(db.Customers.ToList());
-			return View(result);
+			return View(model);
 		}
 
 		// GET: Customers/Details/5

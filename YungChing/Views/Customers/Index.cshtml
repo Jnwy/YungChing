@@ -1,4 +1,4 @@
-﻿@model IPagedList<YungChing.Models.Customers>
+﻿@model YungChing.ViewModels.CustomersListViewModel
 
 @{
 	ViewBag.Title = "Index";
@@ -11,42 +11,63 @@
 <p>
 	@Html.ActionLink("Create New", "Create")
 </p>
+@using (Html.BeginForm("Index", "Customers",
+		FormMethod.Post,
+		new { @class = "form-horizontal", role = "form", id = "CustomersList" }))
+{
+	<div class="row">
+		<div class="col-md-6 form-group">
+			<label class="col-lg-3 control-label">Product Name:</label>
+			<div class="col-lg-8">
+				@Html.EditorFor(x => x.SearchParameter.CustomerName, new { htmlAttributes = new { @class = "form-control" } })
+			</div>
+		</div>
+	</div>
+	<span class="clearfix"></span>
+	<div class="row">
+		<div class="col-md-offset-5">
+			<input type="submit" class="btn btn-primary" value="Search">
+			<span></span>
+			<input type="reset" class="btn btn-default" value="Cancel">
+		</div>
+	</div>
+}
 <table class="table">
 	<tr>
 		<th>
-			@Html.DisplayNameFor(model => model.FirstOrDefault().CompanyName)
+			@Html.DisplayNameFor(model => model.Customers.FirstOrDefault().CompanyName)
 		</th>
 		<th>
-			@Html.DisplayNameFor(model => model.FirstOrDefault().ContactName)
+			@Html.DisplayNameFor(model => model.Customers.FirstOrDefault().ContactName)
 		</th>
 		<th>
-			@Html.DisplayNameFor(model => model.FirstOrDefault().ContactTitle)
+			@Html.DisplayNameFor(model => model.Customers.FirstOrDefault().ContactTitle)
 		</th>
 		<th>
-			@Html.DisplayNameFor(model => model.FirstOrDefault().Address)
+			@Html.DisplayNameFor(model => model.Customers.FirstOrDefault().Address)
 		</th>
 		<th>
-			@Html.DisplayNameFor(model => model.FirstOrDefault().City)
+			@Html.DisplayNameFor(model => model.Customers.FirstOrDefault().City)
 		</th>
 		<th>
-			@Html.DisplayNameFor(model => model.FirstOrDefault().Region)
+			@Html.DisplayNameFor(model => model.Customers.FirstOrDefault().Region)
 		</th>
 		<th>
-			@Html.DisplayNameFor(model => model.FirstOrDefault().PostalCode)
+			@Html.DisplayNameFor(model => model.Customers.FirstOrDefault().PostalCode)
 		</th>
 		<th>
-			@Html.DisplayNameFor(model => model.FirstOrDefault().Country)
+			@Html.DisplayNameFor(model => model.Customers.FirstOrDefault().Country)
 		</th>
 		<th>
-			@Html.DisplayNameFor(model => model.FirstOrDefault().Phone)
+			@Html.DisplayNameFor(model => model.Customers.FirstOrDefault().Phone)
 		</th>
 		<th>
-			@Html.DisplayNameFor(model => model.FirstOrDefault().Fax)
+			@Html.DisplayNameFor(model => model.Customers.FirstOrDefault().Fax)
 		</th>
 		<th></th>
 	</tr>
 
-	@foreach (var item in Model)
+	@foreach (var item in Model.Customers)
 	{
 		<tr>
 			<td>
@@ -89,4 +110,24 @@
 
 </table>
 
-@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+@Html.PagedListPager(Model.Customers, page => Url.Action("Index", new { page }))
+
+@section scripts
+{
+	<script type="text/javascript">$(function () {
+            $('.pagination>li>a[href]').each(function (i, item) {
+                var page = $(item).attr('href').replace('/Customers?page=', '');
+                $(item).attr('href', '#').click(function () { postPage(page); });
+
+            });
+        });
+
+        function postPage(page) {
+			var targetFormId = '#CustomersList';
+
+                $('<input>')
+                    .attr({ type: 'hidden', id: 'PageIndex', name: 'PageIndex', value: page })
+                    .appendTo($(targetFormId));
+                $(targetFormId).submit();
+        };</script>
+}
